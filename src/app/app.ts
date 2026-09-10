@@ -8,6 +8,4 @@ import { RouterOutlet } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.css',
 })
-export class App {
-  protected readonly title = signal('hastane');
-}
+export class App {}

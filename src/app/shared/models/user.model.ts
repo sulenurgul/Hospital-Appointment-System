@@ -1,8 +1,10 @@
+export type UserRole = 'Doctor' | 'Nurse';
+
 export interface User {
   id: string;
   username: string;
   email: string;
-  role: 'Doctor' | 'Nurse';
+  role: UserRole;
   firstName: string;
   lastName: string;
   createdAt: Date;

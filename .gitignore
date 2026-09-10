@@ -42,3 +42,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Lisans anahtarı içerir, paylaşılmaz
+/src/environments/environment.ts
