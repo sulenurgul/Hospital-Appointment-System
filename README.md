@@ -35,14 +35,14 @@ Angular ve Express.js ile geliştirilmiş, hasta/doktor/departman/randevu yönet
 ## Proje Yapısı
 
 Bu repo Angular frontend'ini içerir. Mock API backend'i ayrı bir repoda:
-https://github.com/KULLANICI-ADIN/hastane-mock-api
+https://github.com/sulenurgul/hastane-mock-api
 
 ## Lokal Kurulum
 
 ### Backend
 
 ```bash
-git clone https://github.com/KULLANICI-ADIN/hastane-mock-api.git
+git clone https://github.com/sulenurgul/hastane-mock-api.git
 cd hastane-mock-api
 npm install
 npm start
@@ -53,7 +53,7 @@ Backend `http://localhost:3001` adresinde çalışır.
 ### Frontend
 
 ```bash
-git clone https://github.com/KULLANICI-ADIN/hastane.git
+git clone https://github.com/sulenurgul/hastane.git
 cd hastane
 npm install
 ng serve
