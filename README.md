@@ -1,59 +1,62 @@
-# Hastane
+# Hastane Randevu Sistemi
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.23.
+Angular ve Express.js ile geliştirilmiş, hasta/doktor/departman/randevu yönetimi yapılabilen bir hastane randevu sistemi.
 
-## Development server
+## Canlı Demo
 
-To start a local development server, run:
+- **Uygulama:** https://YOUR-NETLIFY-URL.netlify.app _(deploy sonrası güncellenecek)_
+- **Backend API:** https://hastane-mock-api.onrender.com/api
+
+> Not: Backend Render'ın ücretsiz planında barındırılıyor, uzun süre kullanılmazsa uyku moduna geçiyor. İlk istek 30-50 saniye sürebilir, bu normal.
+
+## Kullanılan Teknolojiler
+
+**Frontend**
+
+- Angular v22 (standalone components, signals, `@defer`, resolvers, functional guard/interceptor)
+- PrimeNG v22 (Aura tema) + PrimeFlex
+- Reactive Forms
+- RxJS
+
+**Backend**
+
+- Express.js
+- connect-api-mocker (mock REST API)
+
+## Özellikler
+
+- Kullanıcı girişi ve rol tabanlı yetkilendirme (guard + interceptor)
+- Hasta yönetimi (listeleme, ekleme, düzenleme)
+- Doktor yönetimi
+- Departman yönetimi
+- Randevu yönetimi (oluşturma, düzenleme, durum güncelleme)
+- Responsive arayüz (PrimeFlex)
+
+## Proje Yapısı
+
+Bu repo Angular frontend'ini içerir. Mock API backend'i ayrı bir repoda:
+https://github.com/KULLANICI-ADIN/hastane-mock-api
+
+## Lokal Kurulum
+
+### Backend
 
 ```bash
+git clone https://github.com/KULLANICI-ADIN/hastane-mock-api.git
+cd hastane-mock-api
+npm install
+npm start
+```
+
+Backend `http://localhost:3001` adresinde çalışır.
+
+### Frontend
+
+```bash
+git clone https://github.com/KULLANICI-ADIN/hastane.git
+cd hastane
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Uygulama `http://localhost:4200` adresinde açılır.
