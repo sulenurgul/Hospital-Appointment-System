@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { PatientListComponent } from './patient-list/patient-list.component';
 import { PatientFormComponent } from './patient-form/patient-form.component';
+import { patientResolver } from './patient.resolver';
 
 export const patientRoutes: Routes = [
   {
@@ -17,5 +18,6 @@ export const patientRoutes: Routes = [
     path: ':id/edit',
     component: PatientFormComponent,
     data: { roles: ['Doctor'] },
+    resolve: { patient: patientResolver },
   },
 ];

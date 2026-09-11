@@ -6,7 +6,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
 
-
 export interface GridColumn {
   field: string;
   header: string;
@@ -29,7 +28,7 @@ export interface GridColumn {
       responsiveLayout="scroll"
       styleClass="p-datatable-striped"
     >
-      <ng-template pTemplate="header">
+      <ng-template #header>
         <tr>
           <th
             *ngFor="let col of columns()"
@@ -43,99 +42,90 @@ export interface GridColumn {
         </tr>
       </ng-template>
 
-      <ng-template pTemplate="body" let-rowData>
+      <ng-template #body let-rowData>
         <tr>
           <td *ngFor="let col of columns()" [hidden]="col.field === 'actions'">
             {{ rowData[col.field] }}
           </td>
           <td>
             <div class="flex gap-2">
-            
-            <button
-              pButton
-              pRipple
-              type="button"
-              icon="pi pi-pencil"
-              class="p-button-rounded p-button-success p-button-sm"
-              (click)="onEditClick(rowData)"
-              pTooltip="Düzenle"
-              tooltipPosition="top"
-            ></button>
+              <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success p-button-sm"
+                (click)="onEditClick(rowData)"
+                pTooltip="Düzenle"
+                tooltipPosition="top"
+              ></button>
 
-            
-            <button
-              pButton
-              pRipple
-              type="button"
-              icon="pi pi-trash"
-              class="p-button-rounded p-button-danger p-button-sm"
-              (click)="onDeleteClick(rowData.id)"
-              pTooltip="Sil"
-              tooltipPosition="top"
-            ></button>
-          </div>
+              <button
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger p-button-sm"
+                (click)="onDeleteClick(rowData.id)"
+                pTooltip="Sil"
+                tooltipPosition="top"
+              ></button>
+            </div>
           </td>
         </tr>
       </ng-template>
 
-      
-      <ng-template pTemplate="emptymessage">
+      <ng-template #emptymessage>
         <tr>
-          <td colspan="100" class="text-center p-4">
-            Veri bulunamadı
-          </td>
+          <td colspan="100" class="text-center p-4">Veri bulunamadı</td>
         </tr>
       </ng-template>
     </p-table>
   `,
-  styles: [`
-    :host {
-      display: block;
-    }
+  styles: [
+    `
+      :host {
+        display: block;
+      }
 
-    .flex {
-      display: flex;
-    }
+      .flex {
+        display: flex;
+      }
 
-    .gap-2 {
-      gap: 0.5rem;
-    }
+      .gap-2 {
+        gap: 0.5rem;
+      }
 
-    .text-center {
-      text-align: center;
-    }
+      .text-center {
+        text-align: center;
+      }
 
-    .p-4 {
-      padding: 1rem;
-    }
-  `]
+      .p-4 {
+        padding: 1rem;
+      }
+    `,
+  ],
 })
 export class GridComponent {
-  
   columns = input<GridColumn[]>([]);
   loading = input(false);
 
- 
   dataSource = model<any[]>([]);
 
-  
   onEdit = output<any>();
   onDelete = output<string>();
 
- 
   onEditClick(row: any): void {
     this.onEdit.emit(row);
   }
 
-  
   onDeleteClick(id: string): void {
     this.onDelete.emit(id);
   }
 
- 
   getFilterFields(): string[] {
     return this.columns()
-      .filter(col => col.filterable !== false && col.field !== 'actions')
-      .map(col => col.field);
+      .filter((col) => col.filterable !== false && col.field !== 'actions')
+      .map((col) => col.field);
   }
 }
