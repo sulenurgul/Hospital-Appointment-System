@@ -7,17 +7,14 @@ export const appointmentRoutes: Routes = [
   {
     path: '',
     component: AppointmentListComponent,
-    data: { roles: ['Doctor', 'Nurse'] },
   },
   {
     path: 'new',
     component: AppointmentFormComponent,
-    data: { roles: ['Doctor', 'Nurse'] },
   },
   {
     path: ':id/edit',
     component: AppointmentFormComponent,
-    data: { roles: ['Doctor', 'Nurse'] },
     resolve: { appointment: appointmentResolver },
   },
 ];

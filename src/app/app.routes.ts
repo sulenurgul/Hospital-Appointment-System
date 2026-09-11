@@ -10,6 +10,12 @@ export const routes: Routes = [
   },
 
   {
+    path: 'unauthorized',
+    loadComponent: () =>
+      import('./features/unauthorized/unauthorized.component').then((m) => m.UnauthorizedComponent),
+  },
+
+  {
     path: '',
     canActivate: [authGuard],
     component: MainLayoutComponent,

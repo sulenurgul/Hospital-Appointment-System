@@ -106,16 +106,16 @@ export interface GridColumn {
     `,
   ],
 })
-export class GridComponent {
+export class GridComponent<T extends { id: string }> {
   columns = input<GridColumn[]>([]);
   loading = input(false);
 
-  dataSource = model<any[]>([]);
+  dataSource = model<T[]>([]);
 
-  onEdit = output<any>();
+  onEdit = output<T>();
   onDelete = output<string>();
 
-  onEditClick(row: any): void {
+  onEditClick(row: T): void {
     this.onEdit.emit(row);
   }
 

@@ -1,46 +1,44 @@
 import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuModule } from 'primeng/menu';
-import { ButtonModule } from 'primeng/button';
 import { AuthService } from '@core/services/auth.service';
 import { MENU_ITEMS } from '@core/constants/app.constants';
 import { MenuItem } from 'primeng/api';
 import type { UserRole } from '@shared/models/user.model';
+import { ButtonComponent } from '@shared/components/button/button.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, MenuModule, ButtonModule],
+  imports: [CommonModule, MenuModule, ButtonComponent],
   template: `
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2>🏥 Hastane Sistemi</h2>
+    <aside
+      class="sidebar flex align-items-center md:align-items-stretch md:flex-column w-full md:w-18rem h-auto md:h-screen"
+    >
+      <div class="sidebar-header hidden md:block">
+        <h2>Hastane Sistemi</h2>
       </div>
 
-      <nav class="sidebar-nav">
+      <nav class="sidebar-nav flex-1 overflow-y-auto">
         <p-menu [model]="menuItems()" [styleClass]="'sidebar-menu'" />
       </nav>
 
       <div class="sidebar-footer">
-        <p-button
+        <app-button
           label="Çıkış Yap"
           icon="pi pi-sign-out"
-          (onClick)="logout()"
           severity="danger"
-          [styleClass]="'w-full'"
-        ></p-button>
+          [fullWidth]="true"
+          (onClick)="logout()"
+        />
       </div>
     </aside>
   `,
   styles: [
     `
       .sidebar {
-        width: 280px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
         box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
       }
 
@@ -57,8 +55,6 @@ import type { UserRole } from '@shared/models/user.model';
       }
 
       .sidebar-nav {
-        flex: 1;
-        overflow-y: auto;
         padding: 1rem 0;
       }
 
@@ -86,28 +82,6 @@ import type { UserRole } from '@shared/models/user.model';
 
       .sidebar-footer {
         padding: 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      :host ::ng-deep .sidebar-footer .p-button {
-        width: 100%;
-      }
-
-      @media (max-width: 768px) {
-        .sidebar {
-          width: 100%;
-          height: auto;
-          flex-direction: row;
-        }
-
-        .sidebar-nav {
-          flex: 1;
-          padding: 0;
-        }
-
-        .sidebar-footer {
-          padding: 0.5rem;
-        }
       }
     `,
   ],

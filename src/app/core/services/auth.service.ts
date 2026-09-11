@@ -1,11 +1,10 @@
-//kimlik doğrulama
 import { Injectable, signal, computed } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpService } from './http.service';
 import { User, LoginRequest, LoginResponse } from '@shared/models/user.model';
 import { AUTH_ENDPOINTS } from '@core/constants/api.constants';
-import { STORAGE_KEYS, MESSAGES } from '@core/constants/app.constants';
+import { STORAGE_KEYS } from '@core/constants/app.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +12,6 @@ import { STORAGE_KEYS, MESSAGES } from '@core/constants/app.constants';
 export class AuthService {
   private currentUserSignal = signal<User | null>(null);
   private tokenSignal = signal<string | null>(null);
-  private loadingSignal = signal(false);
-  private errorSignal = signal<string | null>(null);
 
   isAuthenticated = computed(() => this.currentUserSignal() !== null);
   userRole = computed(() => this.currentUserSignal()?.role ?? null);
@@ -28,9 +25,6 @@ export class AuthService {
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    this.loadingSignal.set(true);
-    this.errorSignal.set(null);
-
     return this.httpService.post<LoginResponse>(AUTH_ENDPOINTS.LOGIN, credentials).pipe(
       map((response) => {
         if (!response.data) {
@@ -46,7 +40,6 @@ export class AuthService {
         localStorage.setItem(STORAGE_KEYS.TOKEN, response.token);
         localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
         localStorage.setItem(STORAGE_KEYS.ROLE, response.user.role);
-        this.loadingSignal.set(false);
       }),
     );
   }
@@ -54,7 +47,6 @@ export class AuthService {
   logout(): void {
     this.tokenSignal.set(null);
     this.currentUserSignal.set(null);
-    this.errorSignal.set(null);
 
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
     localStorage.removeItem(STORAGE_KEYS.USER);

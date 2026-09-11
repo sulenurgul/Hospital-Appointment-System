@@ -7,17 +7,14 @@ export const patientRoutes: Routes = [
   {
     path: '',
     component: PatientListComponent,
-    data: { roles: ['Doctor'] },
   },
   {
     path: 'new',
     component: PatientFormComponent,
-    data: { roles: ['Doctor'] },
   },
   {
     path: ':id/edit',
     component: PatientFormComponent,
-    data: { roles: ['Doctor'] },
     resolve: { patient: patientResolver },
   },
 ];

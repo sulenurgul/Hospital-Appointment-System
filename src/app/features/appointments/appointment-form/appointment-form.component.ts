@@ -24,6 +24,7 @@ import { ButtonComponent } from '@shared/components/button/button.component';
 import { StatusPipe } from '@shared/pipes/status.pipe';
 import {
   APPOINTMENT_TIME_SLOTS,
+  APPOINTMENT_STATUS_LABELS,
   VALIDATION_MESSAGES,
   MESSAGES,
 } from '@core/constants/app.constants';
@@ -44,19 +45,27 @@ import type { Doctor } from '@shared/models/doctor.model';
     DatePickerModule,
     MessageModule,
     ButtonComponent,
-    StatusPipe,
   ],
   template: `
     <div class="form-page">
       <h1>{{ pageTitle() }}</h1>
 
-      @if (isEditMode() && resolvedAppointment()) {
-        <p class="current-status">
-          Mevcut durum: <strong>{{ resolvedAppointment()!.status | status }}</strong>
-        </p>
-      }
-
       <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="appointment-form">
+        @if (isEditMode() && resolvedAppointment()) {
+          <div class="field">
+            <label for="status">Durum</label>
+            <p-select
+              inputId="status"
+              [options]="statusOptions"
+              [(ngModel)]="selectedStatus"
+              [ngModelOptions]="{ standalone: true }"
+              optionLabel="label"
+              optionValue="value"
+              [fluid]="true"
+            />
+          </div>
+        }
+
         <div class="field">
           <label for="patientId">Hasta *</label>
           <p-select
@@ -183,15 +192,9 @@ import type { Doctor } from '@shared/models/doctor.model';
       }
 
       .form-page h1 {
-        margin: 0 0 0.5rem;
+        margin: 0 0 1.5rem;
         font-size: 1.3rem;
         color: #333;
-      }
-
-      .current-status {
-        margin: 0 0 1.5rem;
-        color: #666;
-        font-size: 0.9rem;
       }
 
       .appointment-form {
@@ -258,8 +261,13 @@ export class AppointmentFormComponent {
 
   submitting = signal(false);
   serverError = signal<string | null>(null);
+  selectedStatus = signal<Appointment['status'] | null>(null);
 
   readonly timeSlots = APPOINTMENT_TIME_SLOTS;
+  readonly statusOptions = Object.entries(APPOINTMENT_STATUS_LABELS).map(([value, label]) => ({
+    label,
+    value: value as Appointment['status'],
+  }));
   readonly minDate = new Date();
   readonly maxDate = (() => {
     const d = new Date();
@@ -346,14 +354,14 @@ export class AppointmentFormComponent {
         const doctors = untracked(() => this.doctorsRes.value()?.data ?? []);
         const stillValid = doctors.some((d) => d.id === appointment.doctorId);
         this.selectedDoctorId.set(stillValid ? appointment.doctorId : null);
+        this.selectedStatus.set(appointment.status);
       } else {
         this.appointmentForm.reset();
         this.selectedDoctorId.set(null);
+        this.selectedStatus.set(null);
       }
     });
 
-    // selectedDoctorId (linkedSignal) değiştikçe gerçek FormControl'ü senkron tut —
-    // validasyon ve submit hep appointmentForm üzerinden okunuyor.
     effect(() => {
       const doctorId = this.selectedDoctorId();
       const control = this.appointmentForm.controls.doctorId;
@@ -412,8 +420,24 @@ export class AppointmentFormComponent {
 
     request$.subscribe({
       next: () => {
-        this.submitting.set(false);
-        this.router.navigateByUrl('/appointments');
+        const newStatus = this.selectedStatus();
+        const statusChanged = !!appointment && !!newStatus && newStatus !== appointment.status;
+
+        if (statusChanged) {
+          this.appointmentService.updateStatus(appointment!.id, newStatus!).subscribe({
+            next: () => {
+              this.submitting.set(false);
+              this.router.navigateByUrl('/appointments');
+            },
+            error: (err: { message?: string }) => {
+              this.submitting.set(false);
+              this.serverError.set(err?.message || MESSAGES.ERROR.SERVER_ERROR);
+            },
+          });
+        } else {
+          this.submitting.set(false);
+          this.router.navigateByUrl('/appointments');
+        }
       },
       error: (err: { message?: string }) => {
         this.submitting.set(false);

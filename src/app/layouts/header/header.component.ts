@@ -11,13 +11,15 @@ import { MenuItem } from 'primeng/api';
   selector: 'app-header',
   imports: [CommonModule, ButtonModule, MenuModule, AvatarModule, AvatarGroupModule],
   template: `
-    <header class="header">
+    <header
+      class="header flex flex-column md:flex-row justify-content-between align-items-center gap-3 p-3 md:p-4"
+    >
       <div class="header-left">
         <h1>Hoşgeldiniz</h1>
       </div>
 
-      <div class="header-right">
-        <div class="user-info">
+      <div class="header-right flex align-items-center gap-3">
+        <div class="user-info flex align-items-center gap-3">
           <p-avatar
             [label]="userInitials()"
             shape="circle"
@@ -25,7 +27,7 @@ import { MenuItem } from 'primeng/api';
             styleClass="user-avatar"
           ></p-avatar>
 
-          <div class="user-details">
+          <div class="user-details hidden md:flex flex-column gap-1">
             <p class="user-name">{{ currentUser()?.firstName }} {{ currentUser()?.lastName }}</p>
             <p class="user-role">{{ currentUser()?.role }}</p>
           </div>
@@ -46,10 +48,6 @@ import { MenuItem } from 'primeng/api';
   styles: [
     `
       .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.5rem 2rem;
         background: white;
         border-bottom: 1px solid #e0e0e0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -61,26 +59,8 @@ import { MenuItem } from 'primeng/api';
         color: #333;
       }
 
-      .header-right {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
       .user-avatar {
         cursor: pointer;
-      }
-
-      .user-details {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
       }
 
       .user-name {
@@ -98,22 +78,6 @@ import { MenuItem } from 'primeng/api';
 
       .user-menu-btn {
         cursor: pointer;
-      }
-
-      @media (max-width: 768px) {
-        .header {
-          padding: 1rem;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .header-left h1 {
-          font-size: 1.2rem;
-        }
-
-        .user-details {
-          display: none;
-        }
       }
     `,
   ],

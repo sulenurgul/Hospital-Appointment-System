@@ -1,7 +1,5 @@
 import type { UserRole } from '@shared/models/user.model';
 
-// KULLANICI ROLLERI
-
 export const USER_ROLES = {
   DOCTOR: 'Doctor',
   NURSE: 'Nurse',
@@ -11,8 +9,6 @@ export const USER_ROLES_LABELS = {
   Doctor: 'Doktor',
   Nurse: 'Hemşire',
 } as const;
-
-// randevu durumları ve türkçe etiketleri
 
 export const APPOINTMENT_STATUS = {
   SCHEDULED: 'Scheduled',
@@ -114,14 +110,12 @@ export const VALIDATION_MESSAGES = {
   IDENTITY_NUMBER_INVALID: 'TC kimlik numarası 11 haneli olmalıdır.',
 } as const;
 
-// menü ve yetkilendirmeler
-
 export const MENU_ITEMS = {
-  DASHBOARD: { label: 'Pano', icon: 'pi-home', roles: ['Doctor', 'Nurse'] },
-  PATIENTS: { label: 'Hastalar', icon: 'pi-users', roles: ['Doctor'] },
-  DOCTORS: { label: 'Doktorlar', icon: 'pi-user-md', roles: ['Doctor'] },
-  DEPARTMENTS: { label: 'Birimler', icon: 'pi-building', roles: ['Doctor'] },
-  APPOINTMENTS: { label: 'Randevular', icon: 'pi-calendar', roles: ['Doctor', 'Nurse'] },
+  DASHBOARD: { label: 'Pano', icon: 'pi pi-home', roles: ['Doctor', 'Nurse'] },
+  PATIENTS: { label: 'Hastalar', icon: 'pi pi-users', roles: ['Doctor'] },
+  DOCTORS: { label: 'Doktorlar', icon: 'pi pi-user-md', roles: ['Doctor'] },
+  DEPARTMENTS: { label: 'Birimler', icon: 'pi pi-building', roles: ['Doctor'] },
+  APPOINTMENTS: { label: 'Randevular', icon: 'pi pi-calendar', roles: ['Doctor', 'Nurse'] },
 } as const satisfies Record<
   'DASHBOARD' | 'PATIENTS' | 'DOCTORS' | 'DEPARTMENTS' | 'APPOINTMENTS',
   { label: string; icon: string; roles: readonly UserRole[] }
