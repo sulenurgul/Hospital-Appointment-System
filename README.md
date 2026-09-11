@@ -4,7 +4,7 @@ Angular ve Express.js ile geliştirilmiş, hasta/doktor/departman/randevu yönet
 
 ## Canlı Demo
 
-- **Uygulama:** https://YOUR-NETLIFY-URL.netlify.app _(deploy sonrası güncellenecek)_
+- **Uygulama:** https://hospitalapointmentsystem.netlify.app
 - **Backend API:** https://hastane-mock-api.onrender.com/api
 
 > Not: Backend Render'ın ücretsiz planında barındırılıyor, uzun süre kullanılmazsa uyku moduna geçiyor. İlk istek 30-50 saniye sürebilir, bu normal.
@@ -53,7 +53,7 @@ Backend `http://localhost:3001` adresinde çalışır.
 ### Frontend
 
 ```bash
-git clone https://github.com/sulenurgul/hastane.git
+git clone https://github.com/sulenurgul/Hospital-Appointment-System
 cd hastane
 npm install
 ng serve
